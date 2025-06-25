@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: reltio
+    schema: external
+    tables:
+      - name: individual_party_keys
+        identifier: reltio_individual_party_keys
+      - name: individual_email
+        identifier: reltio_individual_email

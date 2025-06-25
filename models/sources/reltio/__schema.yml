@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: src_reltio__individual_party_keys
+    description: This table has a mapping between party keys and entity id's for an individual.
+
+    columns:
+      - name: party_key
+        description: This is the unique identifier assigned to represent a record
+        tests:
+          - unique
+          - not_null
+
+      - name: entity_id
+        description: This is a unique identifier for an individual
+        tests:
+          - not_null
+
+      - name: loaded_at
+        description: This is the time the data was loaded
+        tests:
+          - not_null

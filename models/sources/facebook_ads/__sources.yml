@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: facebook_ads
+    schema: external
+    tables:
+      - name: campaigns
+        identifier: facebook_ads_campaigns

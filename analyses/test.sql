@@ -1,1 +1,1 @@
-{{- attribution_last_click_n_days_same_x("14") -}}
+{{- attribution_last_click_n_days_same_x("14", ["brand_name", "product_id"]) -}}

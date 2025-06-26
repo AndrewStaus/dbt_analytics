@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: dbt_schema_alias
+    schema: actual_db_schema_name
+    tables:
+      - name: dbt_table_alias
+        identifier: actual_db_table_name

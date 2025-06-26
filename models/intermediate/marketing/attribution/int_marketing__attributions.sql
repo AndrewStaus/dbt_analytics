@@ -30,18 +30,18 @@ parsed as (
         hit_id,
         individual_party_key,
         hit_at attribution_start_at,
-        regexp_substr(query_string, 'utm_source=([^&]*)', 1, 1, 'e', 1) utm_source,
-        regexp_substr(query_string, 'utm_campaign=([^&]*)', 1, 1, 'e', 1) utm_campaign,
+        regexp_substr(query_string, 'utm_source=([^&]*)', 1, 1, 'e', 1) marketing_channel,
+        regexp_substr(query_string, 'utm_campaign=([^&]*)', 1, 1, 'e', 1) campaign_id,
         regexp_substr(query_string, 'product_id=([^&]*)', 1, 1, 'e', 1) advertised_product_id, 
         loaded_at
     from split_query_string
 )
 
 select
-    {{ generate_sid(["utm_source", "utm_campaign"]) }} campaign_sid,
+    {{ generate_sid(["marketing_channel", "campaign_id"]) }} campaign_sid,
     *
 from parsed
-where utm_campaign is not null
+where campaign_id is not null
 {% if is_incremental() -%}
     and loaded_at >= (select max(loaded_at) from {{ this }})
 {%- endif %}

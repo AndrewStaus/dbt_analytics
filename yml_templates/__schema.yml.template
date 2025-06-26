@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: table_name
+    description: description of the table
+
+    columns:
+    - name: column_name
+      description: description of the column
+      tests:
+        - unique
+        - not_null

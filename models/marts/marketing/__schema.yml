@@ -1,0 +1,5 @@
+version: 2
+
+models:
+  - name: dim_marketing__dim_campaigns
+  - name: fct_marketing__fct_attribution_last_click_30d

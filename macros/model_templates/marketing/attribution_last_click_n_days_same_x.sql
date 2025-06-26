@@ -35,6 +35,8 @@
     attributed as (
         select
             {{ generate_sid(["t.transaction_id", "t.product_id", "t.transacted_at"]) }} attribution_sid,
+            {{ lookback_window }} lookback_window,
+            {{ criteria }} criteria,
             a.hit_id,
             i.individual_entity_id,
             a.campaign_sid,

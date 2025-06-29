@@ -6,3 +6,5 @@ sources:
     schema: rms
     tables:
       - name: products
+        config:
+          group: common

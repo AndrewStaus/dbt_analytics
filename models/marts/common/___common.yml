@@ -1,0 +1,4 @@
+groups:
+  - name: common
+    owner:
+      email: data_foundation@email.com

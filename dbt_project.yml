@@ -30,43 +30,62 @@ clean-targets:         # directories to be removed by `dbt clean`
 # directory as views. These settings can be overridden in the individual model
 # files using the `{{ config(...) }}` macro.
 seeds:
-  +schema: external
+  +schema: seed
 
 models:
   analytics:
     marts:
       +schema: mrt_common
+      
       marketing:
         +schema: mrt_marketing
+        +group: marketing
 
       common:
         +schema: mrt_common
+        +group: common
 
     intermediate:
       +schema: int_common
+      
       common:
         +schema: int_common
+        +group: common
+      
       marketing:
         +schema: int_marketing
+        +group: marketing
       
 
     staging:
       +schema: stg_common
+      
       accounts_db:
         +schema: accounts_db
+        +group: common
+      
       adobe_experience:
         +schema: adobe_experience
+        +group: common
+      
       csparc:
         +schema: csparc
+        +group: common
+      
       facebook_ads:
         +schema: facebook_ads
+        +group: marketing
+      
       google_ads:
         +schema: google_ads
+        +group: marketing
+      
       reltio:
         +schema: reltio
+        +group: common
+      
       rms:
         +schema: rms
+        +group: common
 
-    sources:
-      +schema: external
     

@@ -1,0 +1,22 @@
+version: 2
+
+exposures:
+
+  - name: marketing_dashboard
+    label: marketing_dashboard
+    type: dashboard
+    description: This is a dashboard used by the marketing team to view their campaign performance based on different attribution criteria.
+    maturity: high
+    url: https://bi.tool/dashboards/1
+
+    depends_on:
+      - ref('dim_marketing__dim_campaigns')
+      - ref('fct_marketing__fct_attribution')
+
+    owner:
+      name: Andrew Staus
+      email: andrew@email.com
+
+    config:
+      group: marketing
+

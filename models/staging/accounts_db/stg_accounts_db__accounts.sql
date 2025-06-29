@@ -1,6 +1,7 @@
 {{-
   config(
-    materialized = "incremental",
+    tags=["account_id"],
+    materialized="incremental",
     incremental_strategy="merge",
     unique_key="account_id"
     )

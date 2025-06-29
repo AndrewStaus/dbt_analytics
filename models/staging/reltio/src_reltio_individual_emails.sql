@@ -1,5 +1,6 @@
 {{-
   config(
+    tags=["email"],
     materialized = "ephemeral",
     )
 -}}

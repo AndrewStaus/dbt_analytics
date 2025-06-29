@@ -9,17 +9,86 @@ models:
         tests:
           - accepted_values:
               values:
-                - google_ads
                 - facebook_ads
+                - google_ads
       - name: campaign_id
         data_type: number
         tests:
           - unique
           - not_null
+        description: the id from the marketing platform
       - name: campaign_name
         data_type: varchar
+        description: the name of the campaign
       - name: campaign_start_at
+        data_type: timestamp_ntz
+        description: the time the campaign started utc
+      - name: loaded_at
+        data_type: timestamp_ntz
+        description: the date the record was loaded from the source system
+    description: Campaigns occuring on the marketing platforms.  Currently facebook ads and google ads.
+  - name: fct_marketing__fct_attribution
+    columns:
+      - name: attribution_sid
+        description: unique identifier for the attribution
+        data_type: varchar
+      - name: lookback_window
+        description: the length of time of the lookback window
+        data_type: number
+      - name: criteria
+        description: the scope of the attribution
+        data_type: array
+      - name: hit_id
+        description: the hit id generate on the website visit
+        data_type: varchar
+      - name: individual_entity_id
+        description: the individual customer who has the attribution
+        data_type: varchar
+      - name: campaign_sid
+        description: the campaign
+        data_type: varchar
+        tests:
+          - relationships:
+              field: CAMPAIGN_SID
+              to: ref('dim_marketing__dim_campaigns')
+      - name: transaction_id
+        description: the transaction the purchase occured on
+        data_type: number
+        tests:
+          - relationships:
+              field: TRANSACTION_ID
+              to: ref('stg_csparc__transactions')
+      - name: advertised_product_id
+        description: the product advertised
+        data_type: varchar
+        tests:
+          - relationships:
+              field: PRODUCT_ID
+              to: ref('stg_rms__products')
+      - name: transacted_product_id
+        description: the product purchased
+        data_type: varchar
+        tests:
+          - relationships:
+              field: PRODUCT_ID
+              to: ref('stg_rms__products')
+      - name: sales_channel
+        description: where the product was purchased
+        data_type: varchar
+        tests:
+          - accepted_values:
+              values:
+                - store
+                - web
+      - name: transacted_at
+        description: when the transaction occured
+        data_type: timestamp_ntz
+      - name: attribution_start_at
+        description: when the attribution window started
+        data_type: timestamp_ntz
+      - name: attribution_end_at
+        description: when the attribution window ended
         data_type: timestamp_ntz
       - name: loaded_at
         data_type: timestamp_ntz
-  - name: fct_marketing__fct_attribution_last_click_30d
+    description: Omni-channel attribution with a variety of lookback windows and scopes

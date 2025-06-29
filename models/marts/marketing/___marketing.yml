@@ -1,0 +1,4 @@
+groups:
+  - name: marketing
+    owner:
+      email: marketing@email.com

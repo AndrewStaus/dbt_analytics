@@ -1,6 +1,7 @@
 {{-
   config(
-    materialized = 'incremental',
+    group="marketing",
+    materialized='incremental',
     incremental_strategy='merge',
     unique_key='hit_id'
     )

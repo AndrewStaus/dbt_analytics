@@ -1,5 +1,6 @@
 {{-
   config(
+    tags=["email"],
     materialized = "incremental",
     incremental_strategy="merge",
     unique_key="individual_party_key"

@@ -1,6 +1,7 @@
 {{-
   config(
-    materialized = "ephemeral",
+    tags=["first_name", "last_name", "account_id"],
+    materialized="ephemeral",
     )
 -}}
 

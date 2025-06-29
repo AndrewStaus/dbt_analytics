@@ -1,5 +1,6 @@
 {{-
   config(
+    tags=["account_id"],
     materialized="incremental",
     incremental_strategy="delete+insert",
     unique_key='hit_id'

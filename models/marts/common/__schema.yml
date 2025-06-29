@@ -11,7 +11,7 @@ models:
           - unique
           - not_null
 
-      - name: party_key
+      - name: individual_party_key
         description: This is the party key that joins to the Reltio database to resolve for the current entity_id 
         tests:
           - not_null

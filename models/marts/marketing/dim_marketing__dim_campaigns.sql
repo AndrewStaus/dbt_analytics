@@ -14,7 +14,7 @@ google_ads as (
     select * from {{ ref("stg_google_ads__campaigns") }}
 ),
 
-united as (
+united_campaigns as (
     select
     'facebook_ads' marketing_channel,
     *
@@ -29,9 +29,9 @@ united as (
 )
 
 select
-{{ dbt_utils.generate_surrogate_key(["marketing_channel", "campaign_id"]) }} campaign_sid,
-*
-from united
+    concat_ws(':', campaign_id, marketing_channel) campaign_sid,
+    *
+from united_campaigns
 
 {% if is_incremental() -%}
     where loaded_at >= (select max(loaded_at) from {{ this }})

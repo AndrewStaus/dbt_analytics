@@ -2,7 +2,7 @@
 
     with
     attribution as (
-        select * from {{ ref("int_marketing__attributions") }}
+        select * from {{ ref("int_marketing__int_attributions") }}
     ),
     transactions as (
         select * from {{ ref("stg_csparc__transactions") }}

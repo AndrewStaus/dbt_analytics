@@ -16,6 +16,10 @@ individual_party_key as (
     select * from {{ ref('stg_reltio__individual_party_keys') }}
 ),
 
+campaigns as (
+    select * from {{ ref('dim_marketing__dim_campaigns') }}
+),
+
 split_query_string as (
     select
         h.hit_id,
@@ -26,7 +30,7 @@ split_query_string as (
     from clickstream_hits h
 ),
 
-parsed as (
+parsed_hit as (
     select distinct
         hit_id,
         individual_party_key,
@@ -39,10 +43,13 @@ parsed as (
 )
 
 select
-    {{ generate_sid(["marketing_channel", "campaign_id"]) }} campaign_sid,
-    *
-from parsed
-where campaign_id is not null
+    c.campaign_sid,
+    h.*
+from parsed_hit h
+inner join campaigns c on true
+    and h.marketing_channel = c.marketing_channel
+    and h.campaign_id = c.campaign_id
+
 {% if is_incremental() -%}
-    and loaded_at >= (select max(loaded_at) from {{ this }})
+    where loaded_at >= (select max(loaded_at) from {{ this }})
 {%- endif %}

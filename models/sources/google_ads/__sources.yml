@@ -1,8 +1,0 @@
-version: 2
-
-sources:
-  - name: google_ads
-    schema: external
-    tables:
-      - name: campaigns
-        identifier: google_ads_campaigns

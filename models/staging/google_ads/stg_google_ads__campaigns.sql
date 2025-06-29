@@ -1,4 +1,4 @@
-{{
+{{-
   config(
     materialized = "incremental",
     incremental_strategy="merge",
@@ -6,24 +6,17 @@
     )
 -}}
 
-with
-campaigns as (
-    select * from {{ ref("src_google_ads_campaigns") }}
-),
-campaigns_conformed as (
-    select
-        marketing_channel marketing_channel,
-        id                campaign_id,
-        name              campaign_name,
-        campaign_start_at campaign_start_at,
-        loaded_at         loaded_at
-    from campaigns
+with campaigns as (
+    select * from {{ source("google_ads", "campaigns") }}
 )
 
 select
-    {{ generate_sid(["marketing_channel", "campaign_id"]) }} campaign_sid,
-    *
-from campaigns_conformed
+    data:id      ::int       campaign_id,
+    data:name    ::string    campaign_name,
+    data:start   ::timestamp campaign_start_at,
+    loaded_at    ::timestamp loaded_at
+from campaigns
+
 {% if is_incremental() -%}
     where loaded_at >= (select max(loaded_at) from {{ this }})
 {%- endif %}

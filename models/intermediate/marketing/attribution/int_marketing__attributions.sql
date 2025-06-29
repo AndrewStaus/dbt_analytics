@@ -1,10 +1,10 @@
-{{
+{{-
   config(
     materialized = 'incremental',
     incremental_strategy='merge',
     unique_key='hit_id'
     )
-}}
+-}}
 
 with
 clickstream_hits as (

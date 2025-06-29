@@ -1,8 +1,0 @@
-version: 2
-
-sources:
-  - name: rms
-    schema: external
-    tables:
-      - name: products
-        identifier: rms_products

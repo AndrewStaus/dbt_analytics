@@ -2,4 +2,24 @@ version: 2
 
 models:
   - name: dim_marketing__dim_campaigns
+    columns:
+      - name: marketing_channel
+        description: this is the marketing platform that the ad was served on
+        data_type: varchar
+        tests:
+          - accepted_values:
+              values:
+                - google_ads
+                - facebook_ads
+      - name: campaign_id
+        data_type: number
+        tests:
+          - unique
+          - not_null
+      - name: campaign_name
+        data_type: varchar
+      - name: campaign_start_at
+        data_type: timestamp_ntz
+      - name: loaded_at
+        data_type: timestamp_ntz
   - name: fct_marketing__fct_attribution_last_click_30d

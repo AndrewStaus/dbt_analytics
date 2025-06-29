@@ -1,18 +1,17 @@
-{{
+{{-
   config(
-    materialized = "incremental",
-    incremental_strategy="merge",
-    unique_key="hit_id"
+    materialized="incremental",
+    incremental_strategy="delete+insert",
+    unique_key='hit_id'
     )
-}}
+-}}
 
-with
-web_hits as (
-    select 'web' property, * from {{ ref("src_adobe_experience_web_clickstream_hits") }}
+with app_hits as (
+    select * from {{ source("adobe_experience_app", "clickstream_hits") }}
 ),
 
-app_hits as (
-    select 'app' property, * from {{ ref("src_adobe_experience_app_clickstream_hits") }}
+web_hits as (
+    select * from {{ source("adobe_experience_web", "clickstream_hits") }}
 ),
 
 accounts as (
@@ -20,36 +19,35 @@ accounts as (
 ),
 
 united_hits as (
-select 'web' property, * from web_hits
-{% if is_incremental() -%}
-    where loaded_at >= (select max(loaded_at) from {{ this }} where property = 'web')
-{%- endif %}
+    select 'app' property, * from app_hits
+    {% if is_incremental() -%}
+        where loaded_at >= (select max(loaded_at) from {{ this }} where property = 'web')
+    {%- endif %}
 
-union all
+    union all
 
-select 'app' property, * from app_hits
-{% if is_incremental() -%}
-    where loaded_at >= (select max(loaded_at) from {{ this }} where property = 'app')
-{%- endif %}
+    select 'web' property, * from web_hits
+    {% if is_incremental() -%}
+        where loaded_at >= (select max(loaded_at) from {{ this }} where property = 'web')
+    {%- endif %}
 ),
 
 conformed_hits as (
     select
-        {{ pst_to_utc('date_time') }}                   hit_at,
-        concat_ws(':', post_visid_high, post_visid_low) visit_id,
-        concat_ws(':', visit_id, hitid_high, hitid_low) hit_id,
-        mcvisid                                         visitor_id,
-        page_url                                        hit_url,
-        post_evar133                                    account_id,
-        transactionid                                   order_id,
-        loaded_at                                       loaded_at
+        property                                        ::string    property,
+        concat_ws(':', post_visid_high, post_visid_low) ::string    visit_id,
+        concat_ws(':', visit_id, hitid_high, hitid_low) ::string    hit_id,
+        mcvisid                                         ::string    visitor_id,
+        page_url                                        ::string    hit_url,
+        post_evar133                                    ::string    account_id,
+        transactionid                                   ::int       order_id,
+        {{ pst_to_utc('date_time') }}                   ::timestamp hit_at,
+        loaded_at                                       ::timestamp loaded_at
     from united_hits
 )
 
 select
-    h.* exclude(loaded_at),
-    c.individual_party_key,
-    h.loaded_at
+    h.*,
+    a.individual_party_key
 from conformed_hits h
-left join accounts c on h.account_id = c.account_id
-qualify row_number() over (partition by hit_id order by h.loaded_at desc) = 1
+left join accounts a on h.account_id = a.account_id

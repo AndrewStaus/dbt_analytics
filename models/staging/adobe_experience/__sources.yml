@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: adobe_experience_app
+    database: raw
+    schema: adobe_experience_app
+    tables:
+      - name: clickstream_hits
+
+  - name: adobe_experience_web
+    database: raw
+    schema: adobe_experience_web
+    tables:
+      - name: clickstream_hits

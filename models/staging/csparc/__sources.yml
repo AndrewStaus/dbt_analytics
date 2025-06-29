@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: csparc
+    database: raw
+    schema: csparc
+    tables:
+      - name: transactions

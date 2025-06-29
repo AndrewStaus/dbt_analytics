@@ -1,20 +1,20 @@
-{{
+{{-
   config(
     materialized = "incremental",
     incremental_strategy="merge",
     unique_key="product_id"
     )
-}}
+-}}
 
 with products as (
-    select * from {{ ref("src_rms_products") }}
+    select * from {{ source("rms", "products") }}
 )
 
 select
-    id        product_id,
-    name      product_name,
-    brand     brand_name,
-    loaded_at loaded_at
+    id        ::string    product_id,
+    name      ::string    product_name,
+    brand     ::string    brand_name,
+    loaded_at ::timestamp loaded_at
 from products
 
 {% if is_incremental() -%}

@@ -1,8 +1,0 @@
-version: 2
-
-sources:
-  - name: csparc
-    schema: external
-    tables:
-      - name: transactions
-        identifier: csparc_transactions

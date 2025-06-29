@@ -1,8 +1,0 @@
-version: 2
-
-sources:
-  - name: accounts_db
-    schema: external
-    tables:
-      - name: accounts
-        identifier: accounts_db_accounts

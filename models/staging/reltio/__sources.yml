@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: reltio
+    database: raw
+    schema: reltio
+    tables:
+      - name: individual_party_keys
+      - name: individual_emails

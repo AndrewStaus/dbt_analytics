@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: rms
+    database: raw
+    schema: rms
+    tables:
+      - name: products

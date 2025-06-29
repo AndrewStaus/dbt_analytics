@@ -12,7 +12,7 @@ with accounts as (
 
 select
     account_id,
-    party_key individual_party_key,
+    individual_party_key,
     {{ norm_hash('first_name') }} first_name,
     {{ norm_hash('last_name') }} last_name,
     loaded_at

@@ -14,7 +14,6 @@ models:
       - name: campaign_id
         data_type: number
         tests:
-          - unique
           - not_null
         description: the id from the marketing platform
       - name: campaign_name
@@ -26,12 +25,21 @@ models:
       - name: loaded_at
         data_type: timestamp_ntz
         description: the date the record was loaded from the source system
+      - name: campaign_sid
+        description: the unique key for the campaign on the marketing platform
+        data_type: varchar
+        tests:
+          - not_null
+          - unique
     description: Campaigns occuring on the marketing platforms.  Currently facebook ads and google ads.
   - name: fct_marketing__fct_attribution
     columns:
       - name: attribution_sid
         description: unique identifier for the attribution
         data_type: varchar
+        tests:
+          - unique
+          - not_null
       - name: lookback_window
         description: the length of time of the lookback window
         data_type: number
@@ -91,4 +99,5 @@ models:
         data_type: timestamp_ntz
       - name: loaded_at
         data_type: timestamp_ntz
+        description: the date the record was loaded from the source system
     description: Omni-channel attribution with a variety of lookback windows and scopes
